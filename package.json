@@ -1,0 +1,57 @@
+{
+  "name": "example-with-tailwindcss",
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "compile-talwind": "npx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch"
+  },
+  "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@solidjs/router": "^0.15.0",
+    "@solidjs/start": "^1.0.10",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/password-hash": "^1.2.24",
+    "@types/validator": "^13.12.2",
+    "autoprefixer": "^10.4.19",
+    "awilix": "^12.0.4",
+    "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
+    "bootstrap": "^5.3.3",
+    "class-validator": "^0.14.1",
+    "cropperjs": "^1.6.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
+    "password-hash": "^1.2.2",
+    "postcss": "^8.4.38",
+    "reflect-metadata": "^0.2.2",
+    "solid-js": "^1.9.2",
+    "sqlite3": "^5.1.7",
+    "tailwindcss": "^3.4.3",
+    "toastify-js": "^1.12.0",
+    "typeorm": "^0.3.20",
+    "uuid": "^11.0.3",
+    "validator": "^13.12.0",
+    "vinxi": "^0.4.3",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "overrides": {
+    "vite": "5.4.10"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-decorators": "^7.25.9",
+    "@babel/plugin-proposal-object-rest-spread": "^7.20.7",
+    "@babel/plugin-syntax-decorators": "^7.25.9",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.26.3",
+    "@babel/preset-typescript": "^7.26.0",
+    "vite-plugin-babel": "^1.3.0",
+    "vite-plugin-tsc": "^0.1.1"
+  }
+}
