@@ -1,4 +1,10 @@
-import { createContext, useContext, createSignal, onMount } from "solid-js";
+import {
+  createContext,
+  useContext,
+  createSignal,
+  onMount,
+  createEffect,
+} from "solid-js";
 import SD from "../SD";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
@@ -11,7 +17,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType>();
 
 export const AuthProvider = (props: any) => {
-  const [authenticated, setAuthenticated] = createSignal(false);
+  const [authenticated, setAuthenticated] = createSignal<any>("");
 
   const login = () => setAuthenticated(true);
   const logout = () => setAuthenticated(false);
@@ -32,18 +38,20 @@ export const AuthProvider = (props: any) => {
     }
   };
 
-  onMount(() => {
+  // Initialize authenticated state
+  const initializeAuthState = () => {
     const token: string | null = window.localStorage.getItem(
       SD.localStorageKeys.jwt
     ) as string;
-    var flag = !isTokenExpired(token);
-    console.log(flag, "flag");
-    setAuthenticated(flag);
-  });
+    setAuthenticated(!isTokenExpired(token));
+  };
+
+  // Use onMount for client-side initialization
+  onMount(() => initializeAuthState());
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated: () => authenticated(), login, logout }}
+      value={{ isAuthenticated: authenticated, login, logout }}
     >
       {props.children}
     </AuthContext.Provider>

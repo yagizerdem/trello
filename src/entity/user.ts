@@ -3,6 +3,7 @@ import {
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
+  OneToMany,
 } from "typeorm";
 import {
   Contains,
@@ -19,8 +20,9 @@ import {
   MaxLength,
 } from "class-validator";
 import SD from "~/SD";
+import { ContactRequest } from "./contactRequest";
 
-@Entity()
+@Entity("user")
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
@@ -64,6 +66,14 @@ export class User {
     type: "varchar",
   })
   profileImageUrl: string;
+
+  // Reverse relation for sent contact requests
+  @OneToMany(() => ContactRequest, (contactRequest) => contactRequest.fromuser)
+  sentContactRequests!: ContactRequest[];
+
+  // Reverse relation for received contact requests
+  @OneToMany(() => ContactRequest, (contactRequest) => contactRequest.destuser)
+  receivedContactRequests!: ContactRequest[];
 
   @CreateDateColumn({
     type: "text", // Use 'text' instead of 'timestamp' for SQLite

@@ -6,6 +6,9 @@ const SD = {
   localStorageKeys: {
     jwt: "jwt",
   },
+  services: {
+    fileService: "fileService",
+  },
 };
 
 export default SD;

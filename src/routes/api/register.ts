@@ -5,6 +5,10 @@ import { User } from "~/entity/user";
 import ApiResponse from "~/util/apiResponse";
 import AppError from "~/util/appError";
 import { generate } from "password-hash";
+import container from "~/diContainer";
+import SD from "~/SD";
+import FileService from "~/services/fileService";
+import ServiceResponse from "~/util/serviceResponse";
 
 export async function POST({ request }: { request: Request }) {
   try {
@@ -15,6 +19,7 @@ export async function POST({ request }: { request: Request }) {
     newUser.lastName = formData.get("lastName") as string;
     newUser.email = formData.get("email") as string;
     newUser.password = formData.get("password") as string;
+    const profileImage = formData.get("profile") as File;
 
     const userRepository: Repository<User> = AppDataSource.getRepository(User);
     const isValid = await validate(newUser);
@@ -29,6 +34,27 @@ export async function POST({ request }: { request: Request }) {
 
     const hash = generate(newUser.password);
     newUser.password = hash;
+
+    // upload file
+
+    const fileUploadService: FileService = container.resolve<FileService>(
+      SD.services.fileService
+    );
+
+    var serviceResponse: ServiceResponse | null = null;
+    if (profileImage) {
+      serviceResponse = await fileUploadService.uploadSingleFile(profileImage, [
+        "profileImages",
+      ]);
+    }
+    if (serviceResponse && serviceResponse.success) {
+      newUser.profileImageUrl = serviceResponse.data.fileName;
+    }
+    if (serviceResponse && !serviceResponse.success) {
+      throw AppError.create(false, serviceResponse.errors);
+    }
+
+    console.log("service response", serviceResponse);
 
     const result = await userRepository.insert(newUser);
 

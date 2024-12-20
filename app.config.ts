@@ -9,4 +9,5 @@ export default defineConfig({
   //   vite: {
   //     plugins: [tscPlugin({})],
   //   },
+  middleware: "./src/middleware.ts",
 });
