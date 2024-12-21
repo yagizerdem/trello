@@ -3,21 +3,81 @@ import { createEffect, createSignal, Show } from "solid-js";
 import AppNavBar from "~/components/AppNavBar";
 import Loader from "~/components/loader";
 import RouteGuard from "~/components/RouteGuard";
+import { useApp } from "~/context/appContext";
 import { ContactRequest } from "~/entity/contactRequest";
 import ApiResponse from "~/util/apiResponse";
-import { showErrorToast } from "~/util/showToast";
+import { showErrorToast, showSuccessToast } from "~/util/showToast";
 
 export default function ContactRequestList() {
   const [contactRequestList, setContactRequestList] =
     createSignal<Array<any>>();
+  const appContext = useApp();
 
   const [isLoading, setIsLoading] = createSignal(false);
 
-  function accept(userid: number) {
-    console.log(userid, "accept");
+  async function accept(userid: number) {
+    try {
+      const jwt = localStorage.getItem("jwt");
+      const response = await axios.post(
+        "/api/Users/processContactRequest",
+        { destUserId: userid, approved: true },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      const apiResponse: ApiResponse = response.data;
+      console.log(apiResponse);
+      if (!apiResponse.success) {
+        showErrorToast(apiResponse.errors.join("\n"));
+      } else {
+        showSuccessToast(apiResponse.message);
+
+        setContactRequestList((prev) =>
+          prev?.filter(
+            (item) =>
+              item.fromuserId == appContext?.userid() &&
+              item.destuserId == userid
+          )
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      showErrorToast("something went wrong");
+    }
   }
-  function reject(userid: number) {
-    console.log(userid, "reject");
+  async function reject(userid: number) {
+    try {
+      const jwt = localStorage.getItem("jwt");
+      const response = await axios.post(
+        "/api/Users/processContactRequest",
+        { destUserId: userid, approved: false },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      const apiResponse: ApiResponse = response.data;
+      console.log(apiResponse);
+      if (!apiResponse.success) {
+        showErrorToast(apiResponse.errors.join("\n"));
+      } else {
+        showSuccessToast(apiResponse.message);
+
+        setContactRequestList((prev) =>
+          prev?.filter(
+            (item) =>
+              item.fromuserId == appContext?.userid() &&
+              item.destuserId == userid
+          )
+        );
+      }
+    } catch (err) {
+      console.log(err);
+      showErrorToast("something went wrong");
+    }
   }
 
   createEffect(() => {
@@ -81,14 +141,14 @@ export default function ContactRequestList() {
                       class="btn btn-success"
                       onclick={() => accept(item.id)}
                     >
-                      Success
+                      Approve
                     </button>
                     <button
                       type="button"
                       class="btn btn-danger"
                       onclick={() => reject(item.id)}
                     >
-                      Danger
+                      Reject
                     </button>
                   </div>
                 </div>

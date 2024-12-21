@@ -2,7 +2,11 @@ import jwt from "jsonwebtoken";
 import { createMiddleware } from "@solidjs/start/middleware";
 import ApiResponse from "./util/apiResponse";
 
-const protectedRoutes = ["contactRequest", "processContactRequest"];
+const protectedRoutes = [
+  "contactRequest",
+  "processContactRequest",
+  "fetchContacts",
+];
 const secretKey = process.env["JWTSECRET"] as string; // Replace with your secret key
 
 export default createMiddleware({

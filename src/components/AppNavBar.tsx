@@ -6,6 +6,7 @@ import { effect } from "solid-js/web";
 import axios from "axios";
 import { useApp } from "~/context/appContext";
 import { createEffect, createMemo } from "solid-js";
+import SearchUser from "~/routes/SearchUser";
 export default function AppNavBar() {
   const navigate = useNavigate();
   const appContext = useApp();
@@ -35,6 +36,10 @@ export default function AppNavBar() {
 
   function goToContactRequestList() {
     navigate("/ContactRequestList");
+  }
+
+  function goToChat() {
+    navigate("/Chat");
   }
 
   return (
@@ -106,8 +111,9 @@ export default function AppNavBar() {
                   <a
                     href="#"
                     class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                    onclick={goToChat}
                   >
-                    Team
+                    Chat
                   </a>
                   <a
                     href="#"
@@ -196,20 +202,23 @@ export default function AppNavBar() {
             <a
               href="#"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              onclick={goToChat}
             >
-              Team
+              Chat
             </a>
             <a
               href="#"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              onclick={goToContactRequestList}
             >
-              Projects
+              Contact Request List
             </a>
             <a
               href="#"
               class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+              onclick={goToSearchUser}
             >
-              Calendar
+              Search User
             </a>
           </div>
         </div>

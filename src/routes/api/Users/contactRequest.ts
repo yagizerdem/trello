@@ -5,6 +5,7 @@ import { ContactRequest } from "~/entity/contactRequest";
 import { User } from "~/entity/user";
 import { QueryBuilder, Repository } from "typeorm";
 import ContactRequestStates from "~/enum/contactRequestStates";
+import { Contact } from "~/entity/contact";
 
 interface IContactRequestBody {
   destUserId: number;
@@ -21,6 +22,9 @@ export async function POST({ request }: { request: Request }) {
 
     const userRepository: Repository<User> =
       AppDataSource.getRepository<User>(User);
+
+    const contactRepository: Repository<Contact> =
+      AppDataSource.getRepository<Contact>(Contact);
 
     const destUserFromDb: User | null = await userRepository.findOneBy({
       id: body.destUserId,
@@ -48,6 +52,15 @@ export async function POST({ request }: { request: Request }) {
 
     if (flag) {
       throw AppError.create(false, [`already send contact request`]);
+    }
+
+    // check user is already in contact
+    const contactFromdb: Contact | null = await contactRepository.findOneBy({
+      user1id: user.id,
+      user2id: destUserFromDb.id,
+    });
+    if (contactFromdb) {
+      throw AppError.create(false, [`already in contact`]);
     }
 
     const newContactRequest: ContactRequest = new ContactRequest();
@@ -85,7 +98,10 @@ export async function GET({ request }: { request: Request }) {
       AppDataSource.getRepository<ContactRequest>(ContactRequest);
 
     const contactRequestFromdb: Array<ContactRequest> =
-      await contactRequestRepository.findBy({ destuserId: user.id });
+      await contactRequestRepository.findBy({
+        destuserId: user.id,
+        requestState: ContactRequestStates.PENDING,
+      });
 
     const filteredResponse: any = [];
     contactRequestFromdb.forEach((item) => {

@@ -1,13 +1,11 @@
-import { getContext, HTTPEvent } from "vinxi/http";
 import ApiResponse from "~/util/apiResponse";
 import AppError from "~/util/appError";
-import jwt from "jsonwebtoken";
 import { AppDataSource } from "~/AppDataSource";
 import { ContactRequest } from "~/entity/contactRequest";
 import { User } from "~/entity/user";
 import { QueryBuilder, Repository } from "typeorm";
 import ContactRequestStates from "~/enum/contactRequestStates";
-const secretKey = process.env["JWTSECRET"] as string;
+import { Contact } from "~/entity/contact";
 
 interface IprocessRequestBody {
   destUserId: number;
@@ -37,8 +35,8 @@ export async function POST({ request }: { request: Request }) {
 
     const contactRequestsFromDb: ContactRequest | null =
       await contactRequestRepository.findOneBy({
-        fromuserId: user.id,
-        destuserId: destUserId,
+        fromuserId: destUserId,
+        destuserId: user.id,
         requestState: ContactRequestStates.PENDING,
       });
 
@@ -53,7 +51,22 @@ export async function POST({ request }: { request: Request }) {
     }
     await contactRequestRepository.save(contactRequestsFromDb);
 
-    console.log(contactRequestsFromDb);
+    // create contact
+    if (body.approved) {
+      const contactRepository: Repository<Contact> =
+        AppDataSource.getRepository<Contact>(Contact);
+
+      const contact1: Contact = new Contact();
+      contact1.user1id = user.id;
+      contact1.user2id = destUserId;
+
+      const contact2: Contact = new Contact();
+      contact2.user1id = destUserId;
+      contact2.user2id = user.id;
+
+      await contactRepository.insert(contact1);
+      await contactRepository.insert(contact2);
+    }
 
     return ApiResponse.create(
       true,
