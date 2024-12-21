@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
   type: "sqlite", // Use SQLite
   database: path.join(__dirname, "database.sqlite"), // Name of the SQLite file
   synchronize: true, // Auto-create tables (use with caution in production)
-  logging: true, // Logs SQL queries to console
+  logging: false, // Logs SQL queries to console
   subscribers: [],
   entities: [User, ContactRequest, Contact],
 });

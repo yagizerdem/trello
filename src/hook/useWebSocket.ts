@@ -1,9 +1,12 @@
 import { onCleanup, createSignal } from "solid-js";
+import SD from "~/SD";
 
 export function useWebSocket(url: string) {
   const [isConnected, setIsConnected] = createSignal(false);
   const [messages, setMessages] = createSignal<string[]>([]);
   const [error, setError] = createSignal<string | null>(null);
+  const [profileActive, setProfileActive] = createSignal<boolean>(false);
+  const [isTargetWriting, setIsTargetWriting] = createSignal<boolean>(false);
   let socket: WebSocket | null = null;
 
   // Connect to the WebSocket
@@ -13,17 +16,35 @@ export function useWebSocket(url: string) {
       return;
     }
 
+    // get jwt
+    const jwt = window.localStorage.getItem(SD.localStorageKeys.jwt);
     socket = new WebSocket(url);
 
     socket.onopen = () => {
       setIsConnected(true);
       setError(null);
+      socket?.send(JSON.stringify({ type: "auth", token: jwt }));
       console.log("WebSocket connected.");
     };
 
     socket.onmessage = (event) => {
-      setMessages((prev) => [...prev, event.data]);
-      console.log("Message received:", event.data);
+      const response = JSON.parse(event.data);
+      if (response.type == "isprofileactive") {
+        setProfileActive(response.flag);
+      }
+      if (response.type == "targetdisconnected") {
+        setProfileActive(false);
+      }
+      if (response.type == "targetconnected") {
+        setProfileActive(true);
+      }
+      if (response.type == "newmessage") {
+        setMessages((prev) => [response.message, ...prev]);
+      }
+      if (response.type == "iswriting") {
+        console.log(response.flag);
+        setIsTargetWriting(response.flag);
+      }
     };
 
     socket.onclose = () => {
@@ -49,7 +70,6 @@ export function useWebSocket(url: string) {
   const sendMessage = (message: string) => {
     if (socket && socket.readyState === WebSocket.OPEN) {
       socket.send(message);
-      console.log("Message sent:", message);
     } else {
       console.error("Cannot send message: WebSocket is not connected.");
     }
@@ -58,6 +78,7 @@ export function useWebSocket(url: string) {
   // Cleanup on unmount
   onCleanup(() => {
     disconnect();
+    setMessages([]);
   });
 
   return {
@@ -67,6 +88,9 @@ export function useWebSocket(url: string) {
     connect,
     disconnect,
     sendMessage,
+    profileActive,
+    setMessages,
+    isTargetWriting,
   };
 }
 

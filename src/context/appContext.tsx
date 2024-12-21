@@ -36,25 +36,22 @@ export const AppProvider = (props: any) => {
   const [email, setemail] = createSignal("");
   const [userid, setuserid] = createSignal("");
   const [profileImgUrl, setprofileImgUrl] = createSignal("");
-  const authContext = useAuth();
 
-  onMount(() => {
+  // setting credentials
+  createEffect(() => {
     setCredentials();
   });
-
   createEffect(() => {
     document.addEventListener("itemInserted", () => {
       setCredentials();
     });
   });
-
   // private helper funciton
   async function setCredentials() {
     try {
       const jwt: string | null = window.localStorage.getItem(
         SD.localStorageKeys.jwt
       );
-      console.log(jwt);
 
       if (jwt == null) {
         return;
@@ -84,6 +81,7 @@ export const AppProvider = (props: any) => {
       console.log(err);
     }
   }
+  // end region
 
   return (
     <AppContext.Provider
