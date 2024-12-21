@@ -4,6 +4,7 @@ import { setProperty } from "solid-js/web";
 import AppNavBar from "~/components/AppNavBar";
 import RouteGuard from "~/components/RouteGuard";
 import { User } from "~/entity/user";
+import useWebSocket from "~/hook/useWebSocket";
 import ApiResponse from "~/util/apiResponse";
 import { showErrorToast } from "~/util/showToast";
 
@@ -12,6 +13,7 @@ export default function Chat() {
   const [selectedProfileId, setSelectedProfileId] = createSignal<number | null>(
     null
   );
+  const socket = useWebSocket("http://localhost:3000/ws");
 
   // fetch profiles
   createEffect(async () => {

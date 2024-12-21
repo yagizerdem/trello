@@ -9,6 +9,7 @@ const SD = {
   services: {
     fileService: "fileService",
   },
+  webSocketUrl: "http://localhost:3000/ws",
 };
 
 export default SD;

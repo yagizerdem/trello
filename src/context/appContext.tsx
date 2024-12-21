@@ -4,11 +4,14 @@ import {
   createSignal,
   onMount,
   createEffect,
+  onCleanup,
 } from "solid-js";
 import SD from "../SD";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { showErrorToast } from "~/util/showToast";
 import axios from "axios";
+import { useAuth } from "./authContext";
+import useWebSocket from "~/hook/useWebSocket";
 
 type AppContextType = {
   fristName: Function;
@@ -33,6 +36,7 @@ export const AppProvider = (props: any) => {
   const [email, setemail] = createSignal("");
   const [userid, setuserid] = createSignal("");
   const [profileImgUrl, setprofileImgUrl] = createSignal("");
+  const authContext = useAuth();
 
   onMount(() => {
     setCredentials();

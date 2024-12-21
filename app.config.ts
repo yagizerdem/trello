@@ -10,4 +10,15 @@ export default defineConfig({
   //     plugins: [tscPlugin({})],
   //   },
   middleware: "./src/middleware.ts",
+  server: {
+    experimental: {
+      websocket: true,
+    },
+  },
+}).addRouter({
+  name: "ws",
+  type: "http",
+  handler: "./src/ws.ts",
+  target: "server",
+  base: "/ws",
 });
