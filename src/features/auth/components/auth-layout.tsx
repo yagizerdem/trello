@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import AuthParticles from "./auth-particles";
 
 type AuthLayoutProps = {
   title: string;
@@ -21,8 +22,9 @@ export default function AuthLayout({
   children,
 }: AuthLayoutProps) {
   return (
-    <div className="flex min-h-svh items-center justify-center p-4">
-      <Card className="w-full max-w-sm">
+    <div className="relative flex min-h-svh items-center justify-center overflow-hidden p-4">
+      <AuthParticles />
+      <Card className="relative w-full max-w-sm">
         <CardHeader>
           <CardTitle>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>

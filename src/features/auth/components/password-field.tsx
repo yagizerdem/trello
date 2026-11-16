@@ -1,5 +1,12 @@
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 import { Field, FieldError, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group";
 
 type PasswordFieldProps = {
   id: string;
@@ -14,17 +21,31 @@ export default function PasswordField({
   autoComplete,
   error,
 }: PasswordFieldProps) {
+  const [visible, setVisible] = useState(false);
+
   return (
     <Field data-invalid={!!error}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
-      <Input
-        id={id}
-        name={id}
-        type="password"
-        autoComplete={autoComplete}
-        aria-invalid={!!error}
-        required
-      />
+      <InputGroup>
+        <InputGroupInput
+          id={id}
+          name={id}
+          type={visible ? "text" : "password"}
+          autoComplete={autoComplete}
+          aria-invalid={!!error}
+          required
+        />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            size="icon-xs"
+            aria-label={visible ? "Hide password" : "Show password"}
+            aria-pressed={visible}
+            onClick={() => setVisible((v) => !v)}
+          >
+            {visible ? <EyeOff /> : <Eye />}
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
       {error && <FieldError>{error}</FieldError>}
     </Field>
   );
