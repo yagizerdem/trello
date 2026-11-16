@@ -1,13 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { TooltipProvider } from '@/components/ui/tooltip'
-import './index.css'
-import App from './App.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-createRoot(document.getElementById('root')!).render(
+import "@/index.css";
+import App from "@/App.tsx";
+import { BaseProvider } from "@/providers/base-provider.tsx";
+
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <TooltipProvider>
+    <BaseProvider>
       <App />
-    </TooltipProvider>
+    </BaseProvider>
   </StrictMode>,
-)
+);
