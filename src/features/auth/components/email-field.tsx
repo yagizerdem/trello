@@ -1,9 +1,13 @@
-import { Field, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-export default function EmailField() {
+type EmailFieldProps = {
+  error?: string;
+};
+
+export default function EmailField({ error }: EmailFieldProps) {
   return (
-    <Field>
+    <Field data-invalid={!!error}>
       <FieldLabel htmlFor="email">Email</FieldLabel>
       <Input
         id="email"
@@ -11,8 +15,10 @@ export default function EmailField() {
         type="email"
         placeholder="you@example.com"
         autoComplete="email"
+        aria-invalid={!!error}
         required
       />
+      {error && <FieldError>{error}</FieldError>}
     </Field>
   );
 }

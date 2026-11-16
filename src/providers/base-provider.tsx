@@ -21,7 +21,7 @@ export function BaseProvider({ children, ...props }: BaseProviderProps) {
       <ThemeProvider>
         <TooltipProvider>
           {children}
-          <Toaster />
+          <Toaster position="top-right" />
         </TooltipProvider>
       </ThemeProvider>
     </BaseProviderContext.Provider>
