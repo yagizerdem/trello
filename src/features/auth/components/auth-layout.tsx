@@ -6,6 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { ArrowLeft } from "lucide-react";
+import { Link } from "react-router";
+import { Button } from "@/components/ui/button";
 import AuthParticles from "./auth-particles";
 
 type AuthLayoutProps = {
@@ -24,6 +27,17 @@ export default function AuthLayout({
   return (
     <div className="relative flex min-h-svh items-center justify-center overflow-hidden p-4">
       <AuthParticles />
+      <Button
+        asChild
+        variant="ghost"
+        size="sm"
+        className="absolute top-4 left-4"
+      >
+        <Link to="/">
+          <ArrowLeft />
+          Back to home
+        </Link>
+      </Button>
       <Card className="relative w-full max-w-sm">
         <CardHeader>
           <CardTitle>{title}</CardTitle>

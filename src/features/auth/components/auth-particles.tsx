@@ -16,8 +16,9 @@ const options: ISourceOptions = {
   particles: {
     number: { value: 60, density: { enable: true } },
     color: { value: "#888888" },
+    shape: { type: "square" },
     opacity: { value: { min: 0.2, max: 0.6 } },
-    size: { value: { min: 1, max: 3 } },
+    size: { value: { min: 2, max: 5 } },
     links: {
       enable: true,
       color: "#888888",
