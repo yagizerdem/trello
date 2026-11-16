@@ -8,12 +8,43 @@
       "skillPath": "skills/deploy-to-vercel/SKILL.md",
       "computedHash": "66b99dfa063b1c405155e9bffd99c04ca3e312e81b168d540b757bb194b7400a"
     },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "commit": "50894c1d98bc45ca1ab127213e59d6525065b5e7",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "7bc223e2aafbdbf6e50ea243ba6ef67fe432bb069ab439fea0390795dac0bf7f"
+    },
     "git-commit": {
       "source": "github/awesome-copilot",
       "commit": "dc0083dbe22133bfa7ce3500dee85e187e0cd47a",
       "sourceType": "github",
       "skillPath": "skills/git-commit/SKILL.md",
       "computedHash": "90716f49501831c6c0679509b295495021eae83923d6a39035ce7c2d9cd2e8f2"
+    },
+    "postgresql-code-review": {
+      "source": "github/awesome-copilot",
+      "commit": "dc0083dbe22133bfa7ce3500dee85e187e0cd47a",
+      "sourceType": "github",
+      "skillPath": "skills/postgresql-code-review/SKILL.md",
+      "computedHash": "a847ed08b9b1f786e9e7048e93a701f0fe20a92717d96b02b21b87301c8a4edf",
+      "installMode": "copy"
+    },
+    "postgresql-optimization": {
+      "source": "github/awesome-copilot",
+      "commit": "dc0083dbe22133bfa7ce3500dee85e187e0cd47a",
+      "sourceType": "github",
+      "skillPath": "skills/postgresql-optimization/SKILL.md",
+      "computedHash": "b28b67b9111cffa917cf4bffce56a1f37003ae08a1de79c302f297d38de2555d",
+      "installMode": "copy"
+    },
+    "postgresql-table-design": {
+      "source": "wshobson/agents",
+      "commit": "9c61ab243def98f72da12abd41cfcf5bcd91af9d",
+      "sourceType": "github",
+      "skillPath": "plugins/database-design/skills/postgresql-table-design/SKILL.md",
+      "computedHash": "c2d9f4b5037b4320be0cc2489eeb287d3147477ae1f48b33f5f897e2c562ed06",
+      "installMode": "copy"
     },
     "supabase": {
       "source": "supabase/agent-skills",

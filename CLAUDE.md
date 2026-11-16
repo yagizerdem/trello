@@ -5,7 +5,11 @@
 At the start of every session, before doing any work, read the `SKILL.md` of each skill in `.claude/skills/`:
 
 - `deploy-to-vercel`
+- `find-skills`
 - `git-commit`
+- `postgresql-code-review`
+- `postgresql-optimization`
+- `postgresql-table-design`
 - `supabase`
 - `supabase-postgres-best-practices`
 - `vercel-cli-with-tokens`
