@@ -25,13 +25,14 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const isAuthenticated = user !== null;
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log(user);
-
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log(event, session);
+      // console.log(event, session);
       if (event === "INITIAL_SESSION") {
         // handle initial session
+        if (session?.user) {
+          setUser(session.user);
+        }
       } else if (event === "SIGNED_IN") {
         // handle sign in event
         if (session?.user) {
@@ -44,8 +45,14 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
         // handle password recovery event
       } else if (event === "TOKEN_REFRESHED") {
         // handle token refreshed event
+        if (session?.user) {
+          setUser(session.user);
+        }
       } else if (event === "USER_UPDATED") {
         // handle user updated event
+        if (session?.user) {
+          setUser(session.user);
+        }
       }
       // after initial session or any auth state change, stop loading
       setIsLoading(false);
