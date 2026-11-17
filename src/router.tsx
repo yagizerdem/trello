@@ -15,6 +15,10 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
+        path: "/workflow",
+        element: <WorkflowPage />,
+      },
+      {
         path: "*",
         element: <NotFoundPage />,
       },
@@ -27,10 +31,6 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUpPage />,
-  },
-  {
-    path: "/workflow",
-    element: <WorkflowPage />,
   },
 ]);
 
