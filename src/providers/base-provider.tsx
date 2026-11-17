@@ -1,8 +1,11 @@
 import { createContext, useContext } from "react";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { ThemeProvider } from "./theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "./auth-provider";
+import { queryClient } from "@/lib/query-client";
 
 type BaseProviderProps = {
   children: React.ReactNode;
@@ -19,14 +22,17 @@ export function BaseProvider({ children, ...props }: BaseProviderProps) {
 
   return (
     <BaseProviderContext.Provider {...props} value={value}>
-      <AuthProvider>
-        <ThemeProvider>
-          <TooltipProvider>
-            {children}
-            <Toaster position="top-right" />
-          </TooltipProvider>
-        </ThemeProvider>
-      </AuthProvider>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ThemeProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="top-right" />
+            </TooltipProvider>
+          </ThemeProvider>
+        </AuthProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
     </BaseProviderContext.Provider>
   );
 }
