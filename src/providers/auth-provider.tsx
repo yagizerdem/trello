@@ -101,8 +101,6 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     setProfile,
   };
 
-  console.log(profile);
-
   return (
     <AuthProviderContext.Provider {...props} value={value}>
       {children}
