@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import AvatarUpload from "./avatar-upload";
+import ProfileForm from "./profile-form";
 
 gsap.registerPlugin(useGSAP);
 
@@ -83,9 +85,20 @@ export default function ProfilePanel({
         aria-modal="true"
         aria-label="Profile"
         tabIndex={-1}
-        className="min-h-80 w-full max-w-lg rounded-2xl border bg-background/80 shadow-2xl backdrop-blur-xl outline-none"
+        className="w-full max-w-lg rounded-2xl border bg-background/80 p-6 shadow-2xl backdrop-blur-xl outline-none"
         onClick={(event) => event.stopPropagation()}
-      />
+      >
+        <div className="mb-6">
+          <h2 className="text-lg font-semibold">Profile</h2>
+          <p className="text-sm text-muted-foreground">
+            Update your photo and name.
+          </p>
+        </div>
+        <div className="flex flex-col gap-6">
+          <AvatarUpload />
+          <ProfileForm onSaved={() => onOpenChange(false)} />
+        </div>
+      </div>
     </div>,
     document.body,
   );

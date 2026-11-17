@@ -12,6 +12,7 @@ type AuthProviderState = {
   user: User | null;
   isLoading: boolean;
   profile: Profile | null;
+  setProfile: (profile: Profile | null) => void;
 };
 
 const initialState: AuthProviderState = {
@@ -19,6 +20,7 @@ const initialState: AuthProviderState = {
   user: null,
   isLoading: true,
   profile: null,
+  setProfile: () => null,
 };
 
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
@@ -96,6 +98,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     user,
     isLoading,
     profile,
+    setProfile,
   };
 
   console.log(profile);
