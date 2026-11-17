@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import { UsersIcon } from "lucide-react";
 import { supabase } from "@/lib/supabase-client";
 import { useAuth } from "@/providers/auth-provider";
+import { useNavigate } from "react-router";
 
 interface WorkflowMenuProps {
   onOpenChange: (open: boolean) => void;
@@ -52,6 +53,7 @@ function memberCount(workflow: Workflow) {
 
 export default function WorkflowMenu({ onOpenChange }: WorkflowMenuProps) {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const query = useQuery({
     queryKey: ["workflows", user?.id],
@@ -65,7 +67,7 @@ export default function WorkflowMenu({ onOpenChange }: WorkflowMenuProps) {
         open={true}
         onOpenChange={onOpenChange}
         label="Workflows"
-        className="min-h-80"
+        className="h-96 max-h-[80dvh] overflow-y-auto overscroll-contain"
       >
         {query.isLoading ? (
           <div className="flex min-h-60 items-center justify-center">
@@ -78,14 +80,22 @@ export default function WorkflowMenu({ onOpenChange }: WorkflowMenuProps) {
         ) : (
           <ItemGroup className="gap-2">
             {query.data?.map((workflow) => (
-              <Item key={workflow.id} variant="outline" role="listitem">
+              <Item
+                key={workflow.id}
+                variant="outline"
+                role="listitem"
+                onMouseUp={() => {
+                  navigate({
+                    pathname: "/workflow",
+                    search: `?id=${workflow.id}`,
+                  });
+                }}
+              >
                 <ItemContent className="min-w-0">
                   <ItemTitle className="truncate">{workflow.name}</ItemTitle>
                   <ItemDescription className="truncate">
                     {adminName(workflow)}
-                    {workflow.admin_email && (
-                      <> · {workflow.admin_email}</>
-                    )}
+                    {workflow.admin_email && <> · {workflow.admin_email}</>}
                   </ItemDescription>
                 </ItemContent>
                 <ItemActions

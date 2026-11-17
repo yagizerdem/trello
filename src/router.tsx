@@ -4,6 +4,7 @@ import HomePage from "@/features/home";
 import SignInPage from "@/features/auth/sign-in";
 import SignUpPage from "@/features/auth/sign-up";
 import NotFoundPage from "@/features/not-found";
+import WorkflowPage from "@/features/workflow";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/sign-up",
     element: <SignUpPage />,
+  },
+  {
+    path: "/workflow",
+    element: <WorkflowPage />,
   },
 ]);
 
