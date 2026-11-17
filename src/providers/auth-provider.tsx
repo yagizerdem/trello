@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase-client";
 import type { User } from "@supabase/supabase-js";
+import type Profile from "@shared/domain/profile";
 import { createContext, useContext, useEffect, useState } from "react";
 
 type AuthProviderProps = {
@@ -10,12 +11,14 @@ type AuthProviderState = {
   isAuthenticated: boolean;
   user: User | null;
   isLoading: boolean;
+  profile: Profile | null;
 };
 
 const initialState: AuthProviderState = {
   isAuthenticated: false,
   user: null,
   isLoading: true,
+  profile: null,
 };
 
 const AuthProviderContext = createContext<AuthProviderState>(initialState);
@@ -24,6 +27,7 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = user !== null;
   const [isLoading, setIsLoading] = useState(true);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     const { data } = supabase.auth.onAuthStateChange((event, session) => {
@@ -64,11 +68,37 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      supabase
+        .from("profile")
+        .select("*")
+        .eq("user_id", user.id)
+        .single()
+        .then(({ data, error }) => {
+          if (data && !error) {
+            setProfile({
+              avatar_url: data.avatar_url,
+              createdAt: new Date(data.created_at),
+              updatedAt: new Date(data.updated_at),
+              first_name: data.first_name,
+              last_name: data.last_name,
+              id: data.id,
+              user_id: data.user_id,
+            });
+          }
+        });
+    }
+  }, [user]);
+
   const value: AuthProviderState = {
     isAuthenticated,
     user,
     isLoading,
+    profile,
   };
+
+  console.log(profile);
 
   return (
     <AuthProviderContext.Provider {...props} value={value}>
