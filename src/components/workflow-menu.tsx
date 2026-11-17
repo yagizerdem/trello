@@ -9,17 +9,10 @@ interface WorkflowMenuProps {
 
 async function getWorkflows(userId: string) {
   const { data } = await supabase
-    .from("workflow_member")
+    .from("workflow")
     .select("*")
-    .select(
-      `
-      *,
-      workflow: (
-        admin_user_id
-      )
-      `,
-    )
-    .or(`user_id.eq.${userId},workflow.admin_user_id.eq.${userId}`);
+    .select(`*`)
+    .eq("admin_user_id", userId);
 
   return data;
 }
@@ -30,6 +23,7 @@ export default function WorkflowMenu({ onOpenChange }: WorkflowMenuProps) {
   const query = useQuery({
     queryKey: ["workflows"],
     queryFn: () => getWorkflows(user?.id ?? ""),
+    enabled: !!user?.id,
   });
 
   console.log(query.data);
