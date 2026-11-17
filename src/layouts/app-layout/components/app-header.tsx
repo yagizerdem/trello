@@ -1,14 +1,16 @@
-import { LayoutGrid } from "lucide-react";
+import { Kanban, LayoutGrid } from "lucide-react";
 import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import ThemeToggle from "./theme-toggle";
 import UserMenu from "./user-menu";
-import WorkflowMenu from "./workflow-menu";
+import WorkflowMenu from "@/components/workflow-menu";
 import { useAuth } from "@/providers/auth-provider";
+import { Fragment, useState } from "react";
 
 export default function AppHeader() {
   const { user, isLoading } = useAuth();
+  const [showWorkflow, setShowWorkflow] = useState<boolean>(false);
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
@@ -20,7 +22,22 @@ export default function AppHeader() {
             </span>
             <span className="tracking-tight">Trello</span>
           </Link>
-          {user && <WorkflowMenu />}
+          {user && (
+            <Fragment>
+              <Button
+                variant="ghost"
+                size="sm"
+                className="gap-1.5"
+                onClick={() => setShowWorkflow(true)}
+              >
+                <Kanban />
+                Workflows
+              </Button>
+              {showWorkflow && (
+                <WorkflowMenu onOpenChange={() => setShowWorkflow(false)} />
+              )}
+            </Fragment>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
