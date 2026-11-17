@@ -7,7 +7,7 @@ import EmailField from "@/features/auth/components/email-field";
 import PasswordField from "@/features/auth/components/password-field";
 import { getSignUpSchema } from "@shared/validators/auth-validators";
 import { supabase } from "@/lib/supabase-client";
-import { useNavigation } from "react-router";
+import { useNavigate } from "react-router";
 
 type SignUpErrors = Partial<
   Record<"email" | "password" | "confirmPassword", string>
@@ -16,7 +16,7 @@ type SignUpErrors = Partial<
 export default function SignUpForm() {
   const [errors, setErrors] = useState<SignUpErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const navigation = useNavigation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -46,7 +46,7 @@ export default function SignUpForm() {
 
       setErrors({});
 
-      const { data, error } = await supabase.auth.signUp({
+      const { error } = await supabase.auth.signUp({
         email: result.data.email,
         password: result.data.password,
       });
@@ -60,6 +60,8 @@ export default function SignUpForm() {
       toast.success("Sign up successful! Please check your email to confirm.", {
         duration: 3000,
       });
+
+      navigate("/");
     } finally {
       setIsLoading(false);
     }
@@ -81,7 +83,7 @@ export default function SignUpForm() {
           autoComplete="new-password"
           error={errors.confirmPassword}
         />
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isLoading}>
           Sign up
         </Button>
       </FieldGroup>
