@@ -1,0 +1,62 @@
+[
+  {
+    "email": "steven_langosh@example.com",
+    "password": "password123",
+    "first_name": "Steven",
+    "last_name": "Langosh"
+  },
+  {
+    "email": "edwina_hettinger@example.com",
+    "password": "password123",
+    "first_name": "Edwina",
+    "last_name": "Hettinger"
+  },
+  {
+    "email": "sarai_bashirian@example.com",
+    "password": "password123",
+    "first_name": "Sarai",
+    "last_name": "Bashirian"
+  },
+  {
+    "email": "adalberto_turner@example.com",
+    "password": "password123",
+    "first_name": "Adalberto",
+    "last_name": "Turner"
+  },
+  {
+    "email": "taylor_jakubowski@example.com",
+    "password": "password123",
+    "first_name": "Taylor",
+    "last_name": "Jakubowski"
+  },
+  {
+    "email": "darrell_greenholt@example.com",
+    "password": "password123",
+    "first_name": "Darrell",
+    "last_name": "Greenholt"
+  },
+  {
+    "email": "terence_mann@example.com",
+    "password": "password123",
+    "first_name": "Terence",
+    "last_name": "Mann"
+  },
+  {
+    "email": "rocio_cassin1@example.com",
+    "password": "password123",
+    "first_name": "Rocio",
+    "last_name": "Cassin"
+  },
+  {
+    "email": "morris.wiegand-cummerata@example.com",
+    "password": "password123",
+    "first_name": "Morris",
+    "last_name": "Wiegand-Cummerata"
+  },
+  {
+    "email": "benny_crist28@example.com",
+    "password": "password123",
+    "first_name": "Benny",
+    "last_name": "Crist"
+  }
+]

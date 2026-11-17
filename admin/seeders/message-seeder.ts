@@ -1,11 +1,7 @@
-import { faker } from "@faker-js/faker";
 import supabase from "../supabase";
+import { readSeedFile } from "./seed-data";
 
-const COUNT = 10;
-
-const messages = Array.from({ length: COUNT }, () => ({
-  message: faker.lorem.sentence(),
-}));
+const messages = readSeedFile("messages");
 
 const { data, error } = await supabase
   .from("messages")
