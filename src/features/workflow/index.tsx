@@ -3,10 +3,11 @@ import { useSearchParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { Spinner } from "@/components/ui/spinner";
 import { supabase } from "@/lib/supabase-client";
-import NotFoundPage from "@/features/not-found";
-import BoardColumn from "./components/board-column";
-import InlineAddForm from "./components/inline-add-form";
-import type { Board } from "./types";
+import BoardColumn from "@/features/workflow/components/board-column";
+import type { Board } from "@shared/domain/workflow";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import AddBoardModal from "@/features/workflow/components/add-board-model";
 
 async function getWorkflow(id: string) {
   const { data, error } = await supabase
@@ -20,13 +21,6 @@ async function getWorkflow(id: string) {
   return data;
 }
 
-// Boards and tasks only live in local state until they have tables
-const initialBoards: Board[] = [
-  { id: crypto.randomUUID(), name: "To do", tasks: [] },
-  { id: crypto.randomUUID(), name: "In progress", tasks: [] },
-  { id: crypto.randomUUID(), name: "Done", tasks: [] },
-];
-
 export default function WorkflowPage() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
@@ -37,9 +31,10 @@ export default function WorkflowPage() {
     enabled: !!id,
   });
 
-  const [boards, setBoards] = useState<Board[]>(initialBoards);
+  const [boards, setBoards] = useState<Board[]>([]);
   const scrollerRef = useRef<HTMLDivElement>(null);
   const boardCount = useRef(boards.length);
+  const [showAddBoard, setShowAddBoard] = useState<boolean>(false);
 
   // Bring a newly added board into view at the right edge
   useEffect(() => {
@@ -52,13 +47,6 @@ export default function WorkflowPage() {
     boardCount.current = boards.length;
   }, [boards.length]);
 
-  function addBoard(name: string) {
-    setBoards((current) => [
-      ...current,
-      { id: crypto.randomUUID(), name, tasks: [] },
-    ]);
-  }
-
   function addTask(boardId: string, title: string) {
     setBoards((current) =>
       current.map((board) =>
@@ -70,10 +58,6 @@ export default function WorkflowPage() {
           : board,
       ),
     );
-  }
-
-  if (!id || (query.isSuccess && !query.data) || query.isError) {
-    return <NotFoundPage />;
   }
 
   if (query.isLoading) {
@@ -108,17 +92,22 @@ export default function WorkflowPage() {
             <BoardColumn key={board.id} board={board} onAddTask={addTask} />
           ))}
 
-          <div className="w-72 shrink-0 rounded-xl border border-dashed p-2">
-            <InlineAddForm
-              label="Add a board"
-              placeholder="Board name"
-              submitLabel="Add board"
-              onAdd={addBoard}
-              className="w-full"
-            />
-          </div>
+          <Button
+            variant="ghost"
+            className="cursor-pointer group/add h-auto w-72 shrink-0 flex-col gap-2 rounded-xl border border-dashed border-border py-6 text-muted-foreground hover:border-primary/50 hover:bg-primary/5 hover:text-foreground"
+            onMouseUp={() => setShowAddBoard(true)}
+          >
+            <span className="flex size-9 items-center justify-center rounded-full bg-muted transition-colors group-hover/add:bg-primary group-hover/add:text-primary-foreground">
+              <Plus className="size-4" />
+            </span>
+            Add board
+          </Button>
         </div>
       </div>
+
+      {showAddBoard && (
+        <AddBoardModal onOpenChange={() => setShowAddBoard(false)} />
+      )}
     </div>
   );
 }

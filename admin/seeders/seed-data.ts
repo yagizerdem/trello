@@ -25,6 +25,22 @@ export type SeedWorkflowMember = {
   member_email: string;
 };
 
+export type SeedBoard = {
+  // Same workflow identity as SeedWorkflowMember
+  workflow_name: string;
+  workflow_admin_email: string;
+  name: string;
+};
+
+export type SeedTask = {
+  // A board is identified by its workflow and its name, unique per workflow
+  workflow_name: string;
+  workflow_admin_email: string;
+  board_name: string;
+  title: string;
+  description: string | null;
+};
+
 export type SeedMessage = {
   message: string;
 };
@@ -33,6 +49,8 @@ type SeedFiles = {
   users: SeedUser[];
   workflows: SeedWorkflow[];
   workflow_members: SeedWorkflowMember[];
+  boards: SeedBoard[];
+  tasks: SeedTask[];
   messages: SeedMessage[];
 };
 

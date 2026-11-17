@@ -1,5 +1,4 @@
-import InlineAddForm from "./inline-add-form";
-import type { Board } from "../types";
+import type { Board } from "@shared/domain/workflow";
 
 interface BoardColumnProps {
   board: Board;
@@ -35,13 +34,6 @@ export default function BoardColumn({ board, onAddTask }: BoardColumnProps) {
           No tasks yet
         </p>
       )}
-
-      <InlineAddForm
-        label="Add a task"
-        placeholder="Task title"
-        submitLabel="Add task"
-        onAdd={(title) => onAddTask(board.id, title)}
-      />
     </section>
   );
 }

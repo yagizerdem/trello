@@ -5,11 +5,13 @@ const seeders = [
   "./user-seeder.ts",
   "./workflow-seeder.ts",
   "./workflow-member-seeder.ts",
+  "./board-seeder.ts",
+  "./task-seeder.ts",
   "./message-seeder.ts",
 ];
 
 for (const seeder of seeders) {
-  console.log(`\n▶ ${seeder}`);
+  console.log(`\n-> ${seeder}`);
   await import(seeder);
 }
 
