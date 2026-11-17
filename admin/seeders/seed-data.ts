@@ -18,6 +18,13 @@ export type SeedWorkflow = {
   admin_email: string;
 };
 
+export type SeedWorkflowMember = {
+  // A workflow is identified by its name and admin, both set in workflows.json
+  workflow_name: string;
+  workflow_admin_email: string;
+  member_email: string;
+};
+
 export type SeedMessage = {
   message: string;
 };
@@ -25,6 +32,7 @@ export type SeedMessage = {
 type SeedFiles = {
   users: SeedUser[];
   workflows: SeedWorkflow[];
+  workflow_members: SeedWorkflowMember[];
   messages: SeedMessage[];
 };
 

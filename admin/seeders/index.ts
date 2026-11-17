@@ -4,6 +4,7 @@
 const seeders = [
   "./user-seeder.ts",
   "./workflow-seeder.ts",
+  "./workflow-member-seeder.ts",
   "./message-seeder.ts",
 ];
 
